@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace LH_Controls
+namespace ControlTestApp
 {
     internal static class Program
     {

@@ -77,6 +77,7 @@ namespace LH_Controls.Controls
             this.Padding = new Point(0,0);
             this.Margin = new Padding(0,0,0,0);
             this.Font = new Font("微软雅黑", 12);
+            this.ItemSize = new Size(150, 35);
         }
         private void SetGraphicsStyle(Graphics g)
         {

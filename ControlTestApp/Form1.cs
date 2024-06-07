@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace LH_Controls
+namespace ControlTestApp
 {
     public partial class Form1 : Form
     {
