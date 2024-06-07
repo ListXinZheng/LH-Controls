@@ -64,10 +64,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\LH-ButtonAbout.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\LH-ButtonAbout.designer.cs">
+      <DependentUpon>LH-ButtonAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LH-ButtonClose.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\LH-ButtonClose.designer.cs">
+      <DependentUpon>LH-ButtonClose.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LH-ButtonminiSize.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\LH-ButtonminiSize.Designer.cs">
+      <DependentUpon>LH-ButtonminiSize.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\LH-TabControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\LH-ButtonAbout.resx">
+      <DependentUpon>LH-ButtonAbout.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
