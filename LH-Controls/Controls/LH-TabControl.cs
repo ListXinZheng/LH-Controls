@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace LH_Controls.Controls
 {
-    public class LH_TabControl:TabControl
+    public class LH_TabControl : TabControl
     {
         private Color _unselectedtabforecolor = Color.Red;
         [Browsable(true)]
@@ -17,7 +17,7 @@ namespace LH_Controls.Controls
         public Color UnSeclectedtabForeColor
         {
             get { return _unselectedtabforecolor; }
-            set { _unselectedtabforecolor = value;this.Invalidate(); }
+            set { _unselectedtabforecolor = value; this.Invalidate(); }
         }
         private Color _selectedtabforecolor = Color.White;
         [Browsable(true)]
@@ -46,7 +46,7 @@ namespace LH_Controls.Controls
             get { return _selecttabbackcolor; }
             set { _selecttabbackcolor = value; this.Invalidate(); }
         }
-        private Font _unselectfont = new Font("微软雅黑",12);
+        private Font _unselectfont = new Font("微软雅黑", 12);
         [Browsable(true)]
         [Category("LH")]
         [Description("未选中标签的字体")]
@@ -66,19 +66,28 @@ namespace LH_Controls.Controls
         }
         public LH_TabControl()
         {
-            this.SetStyle(ControlStyles.UserPaint,true);
-            this.SetStyle(ControlStyles.AllPaintingInWmPaint,true);
-            this.SetStyle(ControlStyles.Selectable,true);
-            this.SetStyle(ControlStyles.OptimizedDoubleBuffer,true);
+            this.SetStyle(ControlStyles.UserPaint, true);
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            this.SetStyle(ControlStyles.Selectable, true);
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             this.SetStyle(ControlStyles.ResizeRedraw, true);
             this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             this.DrawMode = TabDrawMode.OwnerDrawFixed;
             this.SizeMode = TabSizeMode.Fixed;
-            this.Padding = new Point(0,0);
-            this.Margin = new Padding(0,0,0,0);
+            this.Padding = new Point(0, 0);
+            this.Margin = new Padding(0, 0, 0, 0);
             this.Font = new Font("微软雅黑", 12);
             this.ItemSize = new Size(150, 35);
         }
+        public override Rectangle DisplayRectangle 
+        {
+            get
+            {
+                Rectangle baserect = base.DisplayRectangle;
+                return new Rectangle(baserect.Left - 4, baserect.Top - 4, baserect.Width + 8, baserect.Height + 8);
+            } 
+        }
+
         private void SetGraphicsStyle(Graphics g)
         {
             g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
@@ -92,25 +101,32 @@ namespace LH_Controls.Controls
             for (int i = 0; i < TabPages.Count; i++)
             {
                 Rectangle rect = this.GetTabRect(i);
-                if (i == 0)
-                {
-                    rect.Inflate(-2, 2);
-                }
-                else
-                {
-                    rect.Inflate(2, 2);
-                }
+                rect.Offset(-4, 0);
+                rect.Inflate(0, 2);
                 if (i == this.SelectedIndex)
                 {
-                    graphics.FillRectangle(new SolidBrush(_selecttabbackcolor), rect);
-                    StringFormat stringFormat = new StringFormat();
-                    stringFormat.LineAlignment = StringAlignment.Center;
-                    stringFormat.Alignment = StringAlignment.Center;
-                    graphics.DrawString(TabPages[i].Text, _selectfont, new SolidBrush(_selectedtabforecolor), rect, stringFormat);
+                    rect.Inflate(-2, 0);
+                    if (i == TabPages.Count - 1)
+                    {
+                        graphics.FillRectangle(new SolidBrush(_selecttabbackcolor), rect.X, rect.Y, this.Width - rect.X + 8, rect.Height);
+                        StringFormat stringFormat = new StringFormat();
+                        stringFormat.Alignment = StringAlignment.Center;
+                        stringFormat.LineAlignment = StringAlignment.Center;
+                        graphics.DrawString(TabPages[i].Text, _selectfont, new SolidBrush(_selectedtabforecolor), rect, stringFormat);
+                    }
+                    else
+                    {
+                        graphics.FillRectangle(new SolidBrush(_selecttabbackcolor), rect);
+                        StringFormat stringFormat = new StringFormat();
+                        stringFormat.LineAlignment = StringAlignment.Center;
+                        stringFormat.Alignment = StringAlignment.Center;
+                        graphics.DrawString(TabPages[i].Text, _selectfont, new SolidBrush(_selectedtabforecolor), rect, stringFormat);
+
+                    }
                 }
                 else if (i == TabPages.Count - 1)
                 {
-                    graphics.FillRectangle(new SolidBrush(_unselecttabbackcolor), rect.X,rect.Y,this.Width - rect.X-4,rect.Height);
+                    graphics.FillRectangle(new SolidBrush(_unselecttabbackcolor), rect.X-2,rect.Y,this.Width - rect.X+8,rect.Height);
                     StringFormat stringFormat = new StringFormat();
                     stringFormat.Alignment = StringAlignment.Center;
                     stringFormat.LineAlignment = StringAlignment.Center;
@@ -118,6 +134,7 @@ namespace LH_Controls.Controls
                 }
                 else
                 {
+                    rect.Inflate(4, 0);
                     graphics.FillRectangle(new SolidBrush(_unselecttabbackcolor), rect); 
                     StringFormat stringFormat = new StringFormat();
                     stringFormat.Alignment = StringAlignment.Center;
@@ -126,6 +143,11 @@ namespace LH_Controls.Controls
                 }
             }
             base.OnPaint(e);
+        }
+        protected override void OnPaintBackground(PaintEventArgs pevent)
+        {
+            pevent.Graphics.FillRectangle(Brushes.Transparent, this.ClientRectangle);
+            base.OnPaintBackground(pevent);
         }
     }
 }
